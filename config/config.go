@@ -12,9 +12,10 @@ import (
 var globalConfig *Config
 
 type Config struct {
-	Logger       Logger            `yaml:"logger"`
-	Socket       Socket            `yaml:"socket"`
-	WinStackTask winstack.WinStack `yaml:"win_stack"`
+	Logger       Logger             `yaml:"logger"`
+	Socket       Socket             `yaml:"socket"`
+	TestModel    bool               `yaml:"test_model"`
+	WinStackTask *winstack.WinStack `yaml:"win_stack"`
 }
 
 // Logger 日志相关配置

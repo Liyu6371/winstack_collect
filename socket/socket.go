@@ -11,6 +11,8 @@ import (
 
 var defaultGseClient *gse.GseSimpleClient
 
+type GseClient struct{}
+
 func InitSocket() {
 	defaultGseClient = gse.NewGseSimpleClient()
 	c := config.GetConfig()
@@ -20,30 +22,35 @@ func InitSocket() {
 		defaultGseClient.SetAgentHost(SocketPath)
 	} else {
 		defaultGseClient.SetAgentHost(common.DefaultSocketPath)
-		logger.Warnf("use default socket path: %s", common.DefaultSocketPath)
+		logger.Infof("use default socket path: %s", common.DefaultSocketPath)
 	}
 }
 
-// Start 启动 GSE 通信
-func Start(ctx context.Context) {
+// Start 启动 GSE 通信并且启动一个 goroutine 监听主进程退出事件
+func (g *GseClient) Start(ctx context.Context) {
 	err := defaultGseClient.Start()
 	if err != nil {
 		logger.Errorf("unable to start default gse, %s\n", err)
 		os.Exit(1)
 	}
 	logger.Debugln("successfully started default gse")
+	// TODO 这样关闭会不会不太好感觉应该要等待所有的数据被消费完毕才退出
 	// 启动一个协程监听终止事件
 	go func() {
 		<-ctx.Done()
 		defaultGseClient.Close()
-		logger.Infoln("successfully closed default gse")
+		logger.Infoln("successfully closed gse server")
 	}()
 }
 
 // Send 发送数据到 GSE
-func Send(msg gse.GseMsg) {
+func (g *GseClient) Send(msg gse.GseMsg) {
 	if err := defaultGseClient.Send(msg); err != nil {
 		logger.Errorf("unable to send message to gse, %s\n", err)
 	}
 	logger.Debugln("successfully sent message to gse")
+}
+
+func GetGseClient() *GseClient {
+	return &GseClient{}
 }

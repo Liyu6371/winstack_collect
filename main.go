@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"github.com/natefinch/lumberjack"
 	"os"
-	"os/signal"
 	"strings"
-	"syscall"
 	"winstack_collect/common"
 	"winstack_collect/config"
 	"winstack_collect/logger"
@@ -51,10 +49,9 @@ func main() {
 			Compress:   common.DefaultLogCompress,
 		})
 	}
-	// 开始启动 socket 所有任务共用一个 socket 链接上报数据到 gse
-	// 若初始化 socket 失败也会导致程序直接退出
+	// 初始化 socket 配置
 	socket.InitSocket()
-	// ch 监听中断信号
-	ch := make(chan os.Signal, 1)
-	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
+	// 初始化采集服务
+	collectService := NewService(c)
+	collectService.Run()
 }

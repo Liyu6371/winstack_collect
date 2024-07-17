@@ -3,6 +3,7 @@ logger:
   path: ./collector.log
 socket:
   socket_path: /var/run/ipc.state.report...
+test_model: false
 win_stack:
   concurrency: 50
   clouds:
