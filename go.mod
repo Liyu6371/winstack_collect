@@ -11,6 +11,7 @@ require (
 
 require (
 	github.com/BurntSushi/toml v1.4.0 // indirect
+	github.com/TencentBlueKing/bkmonitor-datalink/pkg/utils v0.1.0 // indirect
 	github.com/elastic/beats v7.1.1+incompatible // indirect
 	github.com/elastic/go-ucfg v0.7.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
