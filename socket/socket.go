@@ -14,9 +14,9 @@ var defaultGseClient *gse.GseSimpleClient
 func InitSocket() {
 	defaultGseClient = gse.NewGseSimpleClient()
 	c := config.GetConfig()
-	SocketPath := c.Report.SocketPath
+	SocketPath := c.Socket.SocketPath
 	// 设置默认的socket文件位置
-	if c.Report.SocketPath != "" {
+	if c.Socket.SocketPath != "" {
 		defaultGseClient.SetAgentHost(SocketPath)
 	} else {
 		defaultGseClient.SetAgentHost(common.DefaultSocketPath)

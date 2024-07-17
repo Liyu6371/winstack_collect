@@ -12,22 +12,20 @@ import (
 var globalConfig *Config
 
 type Config struct {
-	WinStackTask winstack.WinStack `yaml:"win_stack"`
-	Report       Report            `yaml:"reports"`
 	Logger       Logger            `yaml:"logger"`
+	Socket       Socket            `yaml:"socket"`
+	WinStackTask winstack.WinStack `yaml:"win_stack"`
 }
 
-type Report struct {
-	SocketPath    string `yaml:"socket_path"`
-	ClusterDataId int32  `yaml:"cluster_metric_data_id"`
-	HostDataId    int32  `yaml:"host_metric_data_id"`
-	StorageDataId int32  `yaml:"storage_metric_data_id"`
-	VMDataId      int32  `yaml:"vm_metric_data_id"`
-}
-
+// Logger 日志相关配置
 type Logger struct {
 	Level string `yaml:"level"`
 	Path  string `yaml:"path"`
+}
+
+// Socket GSE 通讯相关的配置
+type Socket struct {
+	SocketPath string `yaml:"socket_path"`
 }
 
 // ParseConfig 待实现
